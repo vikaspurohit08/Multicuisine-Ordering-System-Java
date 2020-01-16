@@ -17,6 +17,7 @@ public class Users {
 	private UserRole role;
 	private String Password;
 	private List<Orders> orders = new ArrayList<>();
+	private Locations location;
 	
 	
 	public Users() {
@@ -103,6 +104,16 @@ public class Users {
 
 	public void setOrders(List<Orders> orders) {
 		this.orders = orders;
+	}
+
+	@OneToMany
+	public Locations getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(Locations location) {
+		this.location = location;
 	}
 	
 	
