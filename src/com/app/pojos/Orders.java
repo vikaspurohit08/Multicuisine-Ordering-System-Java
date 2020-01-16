@@ -1,6 +1,8 @@
 package com.app.pojos;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -14,8 +16,9 @@ public class Orders {
 	private String o_time;
 	private String d_time;
 	private OrderStatus o_status;
-	
 	private Users user;
+	private List<FoodItems> fooditems = new ArrayList<FoodItems>();
+	private Restaurant restaurant;
 	
 	public Orders() {
 	System.out.println("Inside Orders Parameterless Ctor");
@@ -45,7 +48,7 @@ public class Orders {
 		this.o_id = o_id;
 	}
 
-	@Column(name="qunatity",nullable = false)
+	@Column(name="quantity",nullable = false)
 	public int getQuantity() {
 		return quantity;
 	}
@@ -101,6 +104,31 @@ public class Orders {
 
 	public void setUser(Users user) {
 		this.user = user;
+	}
+
+
+	@ManyToMany(mappedBy = "orders")
+	public List<FoodItems> getFooditems() {
+		return fooditems;
+	}
+
+
+
+	public void setFooditems(List<FoodItems> fooditems) {
+		this.fooditems = fooditems;
+	}
+
+
+	@ManyToOne
+	@JoinColumn(name="rest_id")
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
 	}
 	
 	

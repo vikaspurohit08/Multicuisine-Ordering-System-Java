@@ -36,6 +36,7 @@ public class City
 	}
 	@Id
 	@Column(name = "city_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getC_id() {
 		return c_id;
 	}
@@ -52,6 +53,7 @@ public class City
 		this.code = code;
 	}
 
+	@Column(length=50,nullable = false)
 	public String getCity() {
 		return city;
 	}

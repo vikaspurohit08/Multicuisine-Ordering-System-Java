@@ -1,5 +1,8 @@
 package com.app.pojos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +17,10 @@ public class Restaurant {
 	private float rest_rating;
 	private byte[] rest_image;
 	private RestType rest_type;
+	private Locations location;
+	private List<FoodItems> fooditems = new ArrayList<FoodItems>();
+	private List<Orders> orders = new ArrayList<>(); 
+	
 	
 	
 	public Restaurant() {
@@ -94,6 +101,38 @@ public class Restaurant {
 	public void setRest_type(RestType rest_type) {
 		this.rest_type = rest_type;
 	}
+
+	@ManyToOne
+	@JoinColumn(name="location_id")
+	public Locations getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(Locations location) {
+		this.location = location;
+	}
+
+	@ManyToMany(mappedBy = "restaurants")
+	public List<FoodItems> getFooditems() {
+		return fooditems;
+	}
+
+
+	public void setFooditems(List<FoodItems> fooditems) {
+		this.fooditems = fooditems;
+	}
+
+	@OneToMany(mappedBy="restaurant",cascade = CascadeType.PERSIST,orphanRemoval=true)
+	public List<Orders> getOrders() {
+		return orders;
+	}
+
+
+	public void setOrders(List<Orders> orders) {
+		this.orders = orders;
+	}
+	
 	
 	
 	

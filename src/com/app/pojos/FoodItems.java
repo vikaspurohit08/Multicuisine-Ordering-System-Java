@@ -1,5 +1,8 @@
 package com.app.pojos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +13,9 @@ public class FoodItems {
 	private String item_name;
 	private Double unit_price;
 	private Category category;
+	private List<Restaurant> restaurants = new ArrayList<Restaurant>();
+	private List<Orders> orders = new ArrayList<>();
+	
 	
 	public FoodItems() {
 		System.out.println("inside fooditems ctor");
@@ -54,6 +60,26 @@ public class FoodItems {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	@JoinTable(name="rest_food",joinColumns= @JoinColumn(name="food_id"),inverseJoinColumns=@JoinColumn(name="rest_id"))
+	public List<Restaurant> getRestaurants() {
+		return restaurants;
+	}
+
+	public void setRestaurants(List<Restaurant> restaurants) {
+		this.restaurants = restaurants;
+	}
+
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	@JoinTable(name="order_food",joinColumns= @JoinColumn(name="food_id"),inverseJoinColumns=@JoinColumn(name="order_id"))
+	public List<Orders> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Orders> orders) {
+		this.orders = orders;
 	}
 
 	@Override

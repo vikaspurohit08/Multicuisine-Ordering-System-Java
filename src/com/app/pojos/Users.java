@@ -106,7 +106,8 @@ public class Users {
 		this.orders = orders;
 	}
 
-	@OneToMany
+	@ManyToOne
+	@JoinColumn(name="location_id")
 	public Locations getLocation() {
 		return location;
 	}

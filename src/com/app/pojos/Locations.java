@@ -1,5 +1,8 @@
 package com.app.pojos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,8 +11,9 @@ public class Locations {
 	private Integer l_id;
 	private String Street;
 	private String Area;
-	
 	private City city;
+	private List<Users> users = new ArrayList<>();
+	private List<Restaurant> restaurants = new ArrayList<>();
 	
 	public Locations() {
 		System.out.println("inside locations ctor");
@@ -63,4 +67,24 @@ public class Locations {
 		return "Locations [l_id=" + l_id + ", Street=" + Street + ", Area=" + Area + "]";
 	}
 
+	@OneToMany(mappedBy = "location",cascade=CascadeType.PERSIST,orphanRemoval=true)
+	public List<Users> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<Users> users) {
+		this.users = users;
+	}
+
+	@OneToMany(mappedBy="location",cascade=CascadeType.PERSIST,orphanRemoval=true)
+	public List<Restaurant> getRestaurants() {
+		return restaurants;
+	}
+
+	public void setRestaurants(List<Restaurant> restaurants) {
+		this.restaurants = restaurants;
+	}
+
+	
+	
 }

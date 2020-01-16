@@ -3,6 +3,7 @@ package com.app.pojos;
 import javax.persistence.*;
 
 @Entity
+@Table(name="blockuser")
 public class BlockUser {
 	
 	private Integer b_id;
