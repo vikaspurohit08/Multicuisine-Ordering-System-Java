@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "cities")
@@ -15,6 +17,7 @@ public class City
 	private String city;
 	
 	private State state;
+	@JsonIgnore
 	private List<Locations> location;
 
 	@OneToMany(mappedBy = "city",cascade = CascadeType.PERSIST,orphanRemoval = true)
@@ -78,5 +81,16 @@ public class City
 		return "City [c_id=" + c_id + ", code=" + code + ", city=" + city + "]";
 	}
 
+	public void addLocations(Locations location)
+	{
+		this.location.add(location);
+		location.setCity(this);
+	}
+	public void deleteLocations(Locations location)
+	{
+		this.location.remove(location);
+		location.setCity(null);
+	}
+	
 	
 }

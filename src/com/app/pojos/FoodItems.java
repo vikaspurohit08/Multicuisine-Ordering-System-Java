@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "fooditems")
 public class FoodItems {
@@ -14,6 +17,7 @@ public class FoodItems {
 	private Double unit_price;
 	private Category category;
 	private List<Restaurant> restaurants = new ArrayList<Restaurant>();
+	
 	private List<Orders> orders = new ArrayList<>();
 	
 	
@@ -22,7 +26,7 @@ public class FoodItems {
 	}
 
 	public FoodItems(String item_name, Double unit_price, Category category) {
-		super();
+		
 		this.item_name = item_name;
 		this.unit_price = unit_price;
 		this.category = category;
@@ -43,7 +47,7 @@ public class FoodItems {
 	}
 
 	public void setItem_name(String item_name) {
-		this.item_name = item_name;
+		this.item_name = item_name.toUpperCase();
 	}
 	@Column(name = "unit_price",nullable = false)
 	public Double getUnit_price() {
@@ -58,11 +62,18 @@ public class FoodItems {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
+		this.category = Category.valueOf(category.toUpperCase());
+	}
+	
+	public void setCategory(Category category)
+	{
 		this.category = category;
 	}
 
-	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.EAGER)
+	@Fetch(value=FetchMode.SUBSELECT)
 	@JoinTable(name="rest_food",joinColumns= @JoinColumn(name="food_id"),inverseJoinColumns=@JoinColumn(name="rest_id"))
 	public List<Restaurant> getRestaurants() {
 		return restaurants;
@@ -72,7 +83,8 @@ public class FoodItems {
 		this.restaurants = restaurants;
 	}
 
-	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	@Fetch(value=FetchMode.SUBSELECT)
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinTable(name="order_food",joinColumns= @JoinColumn(name="food_id"),inverseJoinColumns=@JoinColumn(name="order_id"))
 	public List<Orders> getOrders() {
 		return orders;
@@ -86,6 +98,16 @@ public class FoodItems {
 	public String toString() {
 		return "FoodItems [fi_id=" + fi_id + ", item_name=" + item_name + ", unit_price=" + unit_price + ", category="
 				+ category + "]";
+	}
+	
+	
+	public void addRestaurant(Restaurant restaurant)
+	{
+		this.restaurants.add(restaurant);
+	}
+	public void removeRestaurant(Restaurant restaurant)
+	{
+		this.restaurants.remove(restaurant);
 	}
 	
 	

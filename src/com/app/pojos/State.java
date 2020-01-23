@@ -5,13 +5,15 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "states")
 public class State 
 {
 	private Integer s_id;
 	private String state;
-	
+	@JsonIgnore
 	private List<City> cities=new ArrayList<City>();
 	
 	//paramless ctor

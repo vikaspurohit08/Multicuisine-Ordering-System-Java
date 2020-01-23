@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="restaurant")
 public class Restaurant {
@@ -15,12 +17,14 @@ public class Restaurant {
 	private String rest_email;
 	private RestStatus rest_status;
 	private float rest_rating;
+	
 	private byte[] rest_image;
 	private RestType rest_type;
 	private Locations location;
+	@JsonIgnore
 	private List<FoodItems> fooditems = new ArrayList<FoodItems>();
+	@JsonIgnore
 	private List<Orders> orders = new ArrayList<>(); 
-	
 	
 	
 	public Restaurant() {
@@ -87,6 +91,9 @@ public class Restaurant {
 	public void setRest_rating(float rest_rating) {
 		this.rest_rating = rest_rating;
 	}
+	
+	@Lob
+	@Column(length=16777215)
 	public byte[] getRest_image() {
 		return rest_image;
 	}
@@ -113,7 +120,7 @@ public class Restaurant {
 		this.location = location;
 	}
 
-	@ManyToMany(mappedBy = "restaurants")
+	@ManyToMany(mappedBy = "restaurants",fetch=FetchType.EAGER)
 	public List<FoodItems> getFooditems() {
 		return fooditems;
 	}
@@ -132,8 +139,24 @@ public class Restaurant {
 	public void setOrders(List<Orders> orders) {
 		this.orders = orders;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Restaurant [rest_id=" + rest_id + ", rest_name=" + rest_name + ", rest_contact=" + rest_contact
+				+ ", rest_email=" + rest_email + ", rest_status=" + rest_status + ", rest_rating=" + rest_rating
+				+ ", rest_type=" + rest_type + ", location=" + location + "]";
+	}
 	
 	
+	public void addFoodItems(FoodItems fooditems)
+	{
+		this.fooditems.add(fooditems);
+	}
+	public void removeFoodItems(FoodItems fooditems)
+	{
+		this.fooditems.remove(fooditems);
+	}
 	
 	
 }

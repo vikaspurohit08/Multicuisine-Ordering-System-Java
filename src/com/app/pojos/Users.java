@@ -15,7 +15,7 @@ public class Users {
 	private String contact;
 	private String email;
 	private UserRole role;
-	private String Password;
+	private String password;
 	private List<Orders> orders = new ArrayList<>();
 	private Locations location;
 	
@@ -32,7 +32,7 @@ public class Users {
 		this.contact = contact;
 		this.email = email;
 		this.role = role;
-		Password = password;
+		password = password;
 	}
 
 
@@ -90,10 +90,10 @@ public class Users {
 	
 	@Column(name="password",length = 50,nullable = false)
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 	public void setPassword(String password) {
-		Password = password;
+		password = password;
 	}
 
 	@OneToMany(mappedBy = "user",cascade=CascadeType.PERSIST,orphanRemoval=true)
@@ -116,6 +116,7 @@ public class Users {
 	public void setLocation(Locations location) {
 		this.location = location;
 	}
+	
 	
 	
 	

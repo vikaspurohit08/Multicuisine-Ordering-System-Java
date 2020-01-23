@@ -5,25 +5,27 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "locations")
 public class Locations {
 	private Integer l_id;
-	private String Street;
-	private String Area;
+	private String street;
+	private String area;
 	private City city;
+	@JsonIgnore
 	private List<Users> users = new ArrayList<>();
+	@JsonIgnore
 	private List<Restaurant> restaurants = new ArrayList<>();
 	
 	public Locations() {
 		System.out.println("inside locations ctor");
 	}
 
-	public Locations(Integer l_id, String street, String area) {
-		super();
-		this.l_id = l_id;
-		Street = street;
-		Area = area;
+	public Locations(String street, String area) {
+		this.street = street;
+		this.area = area;
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,19 +39,19 @@ public class Locations {
 	}
 	@Column(name = "street",length = 50,nullable = false)
 	public String getStreet() {
-		return Street;
+		return street;
 	}
 
 	public void setStreet(String street) {
-		Street = street;
+		this.street = street;
 	}
 	@Column(name = "area",length = 50,nullable = false)
 	public String getArea() {
-		return Area;
+		return area;
 	}
 
 	public void setArea(String area) {
-		Area = area;
+		this.area = area;
 	}
 	
 	@ManyToOne
@@ -64,7 +66,7 @@ public class Locations {
 
 	@Override
 	public String toString() {
-		return "Locations [l_id=" + l_id + ", Street=" + Street + ", Area=" + Area + "]";
+		return "Locations [l_id=" + l_id + ", Street=" + street + ", Area=" + area + "]";
 	}
 
 	@OneToMany(mappedBy = "location",cascade=CascadeType.PERSIST,orphanRemoval=true)
@@ -85,6 +87,15 @@ public class Locations {
 		this.restaurants = restaurants;
 	}
 
-	
+	public void addRestaurants(Restaurant restaurant)
+	{
+		restaurants.add(restaurant);
+		restaurant.setLocation(this);
+	}
+	public void deleteRestaurant(Restaurant restaurant)
+	{
+		restaurants.remove(restaurant);
+		restaurant.setLocation(null);
+	}
 	
 }
