@@ -34,11 +34,14 @@
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
 		p:sessionFactory-ref="sessionFactory">
 	</bean>
+<<<<<<< HEAD
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="8000000" />
 	</bean>
 	
+=======
+>>>>>>> c9e9210a077a565ab556035c80a9bed8818e478e
 	<!-- enable tx annotation suuport -->
 	<tx:annotation-driven />
 
